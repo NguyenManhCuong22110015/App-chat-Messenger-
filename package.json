@@ -1,0 +1,19 @@
+{
+  "name": "chatbot_messenger",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "chat bot for Messenger ",
+  "main": "index.js",
+  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
