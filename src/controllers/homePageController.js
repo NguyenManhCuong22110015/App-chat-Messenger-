@@ -32,19 +32,21 @@ let postWebhook = (req, res) => {
     let body = req.body;
     if(body.object === 'page'){
         body.entry.forEach(function(entry){
-            let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
+            if (entry.messaging && entry.messaging.length > 0) {
+                let webhook_event = entry.messaging[0];
+                
+                // Verify webhook_event exists before accessing
+                if (webhook_event && webhook_event.sender) {
+                    let sender_psid = webhook_event.sender.id;
+                    console.log('Sender PSID: ' + sender_psid);
 
-
-            let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
-
-            if(webhook_event.message){
-                handleMessages(sender_psid, webhook_event.message);
-            } else if(webhook_event.postback){
-                handlePostback(sender_psid, webhook_event.postback);
-            } 
-
+                    if (webhook_event.message) {
+                        handleMessages(sender_psid, webhook_event.message);
+                    } else if (webhook_event.postback) {
+                        handlePostback(sender_psid, webhook_event.postback);
+                    }
+                }
+            }
         });
         res.status(200).send('EVENT_RECEIVED');
     }
