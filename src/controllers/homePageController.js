@@ -1,5 +1,9 @@
 import 'dotenv/config'; 
 import request from 'request';
+
+
+import handllePageService from '../services/handllePageService';
+
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 let getHomePage = (req, res) => {
@@ -100,18 +104,33 @@ let handleMessages = (sender_psid, received_message) => {
 }
 
 
-let handlePostback = (sender_psid, received_postback) => {
+
+
+
+let handlePostback = async(sender_psid, received_postback) => {
     let response;
-  
+    
     // Get the payload for the postback
     let payload = received_postback.payload;
   
-    // Set the response based on the postback payload
-    if (payload === 'yes') {
-      response = { "text": "Thanks!" }
-    } else if (payload === 'no') {
-      response = { "text": "Oops, try sending another image." }
+    switch(payload){
+        case 'GET_STARTED':
+            let username = await handllePageService.getFacabookUsername(sender_psid);
+            response = { "text": `Welcome to ${username} my Page!` }
+            break;
+        case 'Yes!':
+            response = { "text": "Thanks!" }
+        case 'No!':
+            response = { "text": "Oops, try sending another image." }
+        default:
+            response = { "text": "Oops! I don't get it" }
+            break;
     }
+
+
+
+    // Set the response based on the postback payload
+  
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
 }
@@ -140,8 +159,23 @@ let callSendAPI = (sender_psid, response) => {
 }
 
 
+let handleSetupProfile =  async(req, res) => {
+   try {
+    await handllePageService.handleSetupProfileAPI();
+    res.redirect('/')
+   }
+   catch(e){
+       console.log(e);
+   }
+}
+
+let getSetupProfile = (req, res) => {
+    res.render('profile.ejs')
+}
 export default {
     getHomePage: getHomePage,
     getWebhook: getWebhook,
-    postWebhook: postWebhook
+    postWebhook: postWebhook,
+    handleSetupProfile: handleSetupProfile,
+    getSetupProfile:getSetupProfile
 }
