@@ -13,4 +13,3 @@ let initWebRoutes = (app) => {
 export default initWebRoutes;
 
 
-curl -X GET "localhost:3000/webhook?hub.verify_token=153OEJ6FIXRXBC0VRK3&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe"

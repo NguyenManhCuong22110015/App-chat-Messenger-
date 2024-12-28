@@ -34,6 +34,11 @@ let postWebhook = (req, res) => {
         body.entry.forEach(function(entry){
             let webhook_event = entry.messaging[0];
             console.log(webhook_event);
+
+
+            let sender_psid = webhook_event.sender.id;
+            console.log('Sender PSID: ' + sender_psid);
+
         });
         res.status(200).send('EVENT_RECEIVED');
     }
@@ -42,6 +47,21 @@ let postWebhook = (req, res) => {
     }
 }
 
+
+
+let handleMessages = (sender_psid, received_message) => {
+
+}
+
+
+let handlePostback = (sender_psid, received_postback) => {
+
+}
+
+
+let callSendAPI = (sender_psid, response) => {
+
+}
 
 
 export default {
