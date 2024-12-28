@@ -2,7 +2,7 @@ import 'dotenv/config';
 import request from 'request';
 
 
-import handllePageService from '../services/handllePageService';
+import handllePageService from '../services/handllePageService.js';
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
